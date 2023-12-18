@@ -30,3 +30,6 @@ spring.mvc.view.suffix=.jsp
 - **`GET /users/1/posts`**: 식별자가 1인 사용자의 모든 게시물을 조회합니다.
 - **`GET /users/1/posts/2`**: 식별자가 1인 사용자가 작성한 식별자가 2인 게시물을 조회합니다.
 - **`POST /users/1/posts`**: 식별자가 1인 사용자가 새로운 게시물을 생성합니다.
+
+## Postman API
+Rest API 테스트 도구로 json파일을 편하게 볼 수 있도록 해줌
