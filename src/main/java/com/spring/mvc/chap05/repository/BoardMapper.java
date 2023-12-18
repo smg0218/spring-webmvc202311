@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.repository;
 
 import com.spring.mvc.chap05.common.Page;
+import com.spring.mvc.chap05.common.Search;
 import com.spring.mvc.chap05.entity.Board;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,5 +26,5 @@ public interface BoardMapper {
     void updateViewCount(int boardNo);
 
     // 총 게시물 수 구하기
-    int count();
+    int count(Search search);
 }

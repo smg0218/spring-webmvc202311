@@ -6,6 +6,21 @@
 
     <select id="findAll" resultType="board">
         SELECT * FROM tbl_board
+<!-- SQL문에다 쓰면 무조건 String형으로 자료를 가져오기에 if문에다 비교하기-->
+        <if test="type == 'title'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+            <!--            CONCAT은 결합하는 함수         -->
+        </if>
+
+        <if test="type == 'content'">
+            WHERE content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
+        <if test="type == 'tc'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+            OR content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+
         ORDER BY board_no DESC
         LIMIT #{pageStart}, #{amount}
     </select>
@@ -36,6 +51,17 @@
     <select id="count" resultType="int">
         SELECT COUNT(*)
         FROM tbl_board
+
+        <if test="type == 'title'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="type == 'content'">
+            WHERE content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+        <if test="type == 'tc'">
+            WHERE title LIKE CONCAT('%', #{keyword}, '%')
+            OR content LIKE CONCAT('%', #{keyword}, '%')
+        </if>
     </select>
 
 </mapper>
