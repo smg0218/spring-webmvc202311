@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 /**
+ * DB에 테이블 만들기
  create table tbl_reply
  (
  reply_no     INT(10) auto_increment,

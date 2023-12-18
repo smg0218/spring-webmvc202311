@@ -35,8 +35,9 @@
         reply_no, reply_text, reply_writer
         , reply_date, board_no
         FROM tbl_reply
-        WHERE board_no = #{boardNo}
+        WHERE board_no = #{bn}
         ORDER BY reply_no
+        LIMIT #{p.pageStart}, #{p.amount}
     </select>
 
     <select id="count" resultType="int">
