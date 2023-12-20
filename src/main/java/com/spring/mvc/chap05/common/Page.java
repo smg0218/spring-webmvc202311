@@ -1,5 +1,6 @@
 package com.spring.mvc.chap05.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -7,6 +8,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
 public class Page {
 
     private int pageNo; // 클라이언트가 보낸 페이지번호

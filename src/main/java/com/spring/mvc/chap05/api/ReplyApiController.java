@@ -1,18 +1,31 @@
 package com.spring.mvc.chap05.api;
 
 import com.spring.mvc.chap05.common.Page;
-import com.spring.mvc.chap05.dto.ReplyDetailResponseDTO;
-import com.spring.mvc.chap05.entity.Reply;
+import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
+import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
+import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
+
+/**
+ * REST API URL 설계 원칙
+ * - CRUD는 URL에 명시하는게 아니라 HTTP method로만 표현해야 함!
+ * => /replies/write    (x)
+ * => /replies  : POST  (O)
+ *
+ * => /replies/all  :   (x)
+ * => /replies  :   GET (O) - 전체조회
+ *
+ * => /replies/17(id)   :   GET - 단일조회
+ */
 
 @RestController
 @Slf4j
@@ -32,13 +45,43 @@ public class ReplyApiController {
 
         Page page = new Page();
         page.setPageNo(pageNo);
-        page.setAmount(10);
+        page.setAmount(5);
 
-        List<ReplyDetailResponseDTO> relies = replyService.getList(boardNo, page);
+        ReplyListResponseDTO relies = replyService.getList(boardNo, page);
 
         return ResponseEntity
                 .ok()
                 .body(relies)
                 ;
+    }
+
+    // 댓글 등록 요청 처리
+    
+    // RequestParam : 동기 요청에서 ?뒤에 붙은 파라미터 읽는 역할
+    // RequestBody : 비동기 요청에서 메세지 body 안에 있는 JSON을 받는 역할
+    // 기본은 Requestparam 이므로 비동기요청일 시 RequestBody 붙이기
+    @PostMapping
+    public ResponseEntity<?> create(@Validated @RequestBody ReplyPostRequestDTO dto //ResponseEntity 고정
+    , BindingResult result // 검증 결과 메시지를 가진 객체
+    ) {
+
+        // 입력값 검증에 걸리면 400번 코드와 함께 메시지를 클라이언트에 전송
+        if(result.hasErrors()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(result.toString())
+                    ;
+        }
+
+        log.info("/api/v1/replies : POST");
+        log.debug("request parameter : {}", dto);
+
+        try {
+            ReplyListResponseDTO responseDTO = replyService.register(dto);
+            return ResponseEntity.ok().body(responseDTO);
+        } catch (SQLException e) {
+            log.warn("500 status code response!! caused by : {}", e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }

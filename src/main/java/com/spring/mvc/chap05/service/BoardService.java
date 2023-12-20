@@ -1,18 +1,14 @@
 package com.spring.mvc.chap05.service;
 
-import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.common.Search;
-import com.spring.mvc.chap05.dto.BoardDetailResponseDTO;
-import com.spring.mvc.chap05.dto.BoardListResponseDTO;
-import com.spring.mvc.chap05.dto.BoardWriteRequestDTO;
+import com.spring.mvc.chap05.dto.response.BoardDetailResponseDTO;
+import com.spring.mvc.chap05.dto.response.BoardListResponseDTO;
+import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.entity.Board;
 import com.spring.mvc.chap05.repository.BoardMapper;
-import com.spring.mvc.chap05.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
