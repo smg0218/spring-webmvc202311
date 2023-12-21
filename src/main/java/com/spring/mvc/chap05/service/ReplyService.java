@@ -2,6 +2,7 @@ package com.spring.mvc.chap05.service;
 
 import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.common.PageMaker;
+import com.spring.mvc.chap05.dto.request.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
 import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
@@ -10,6 +11,7 @@ import com.spring.mvc.chap05.repository.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -53,6 +55,25 @@ public class ReplyService {
         }
 
         // 등록이 성공하면 새롭게 갱신된 1페이지 댓글 내용을 재 조회해서 응답한다.
+        return getList(dto.getBno(), new Page(1, 5));
+    }
+
+    // 댓글 삭제
+    @Transactional // 트랜잭션(예외처리) 자동화
+    public ReplyListResponseDTO delete(long replyNo) throws Exception {
+        Reply reply = replyMapper.findOne(replyNo);
+        long boardNo = reply.getBoardNo();
+
+        replyMapper.delete(replyNo);
+
+        return getList(boardNo, new Page(1, 5));
+    }
+
+    // 댓글 수정 처리
+    public ReplyListResponseDTO modify(ReplyModifyRequestDTO dto) throws Exception {
+
+        replyMapper.modify(dto.toEntity());
+
         return getList(dto.getBno(), new Page(1, 5));
     }
 

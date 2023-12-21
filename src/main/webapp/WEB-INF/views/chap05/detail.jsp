@@ -262,10 +262,11 @@
     function renderReplies( {replies, count, pageInfo} ) {
         let tag = '';
 
-        for (let reply of replies) {
-            const { rno, writer, text, regDate } = reply;
+        if(replies !== null && replies.length > 0) {
+            for (let reply of replies) {
+                const {rno, writer, text, regDate} = reply;
 
-            tag += `
+                tag += `
                     <div id='replyContent' class='card-body' data-replyId='\${rno}'>
                         <div class='row user-block'>
                             <span class='col-md-3'>
@@ -274,17 +275,23 @@
                             <span class='offset-md-6 col-md-3 text-right'><b>\${regDate}</b></span>
                         </div><br>
                         <div class='row'>
-                            <div class='col-md-6'>\${text}</div>
-                            <div class='et-md-2 col-md-4 text-right'></div>
+                            <div class='col-md-9'>\${text}</div>
+                            <div class='col-md-3 text-right'>
+                                <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;
+                                <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>
+                            </div>
 
                         </div>
                     </div>
-      `;
+                        `;
+            } // end for
+        } // end if
+        else {
+            tag += "<div id='replyContent' class='card-body'>댓글이 없습니다.</div>";
         }
 
         // 댓글 수 렌더링
         document.getElementById('replyCnt').innerHTML = count;
-
         // 댓글 렌더링
         document.getElementById('replyData').innerHTML = tag;
 
@@ -385,6 +392,95 @@
         };
     }
 
+    // 댓글 삭제 + 수정모드진입 이벤트 핸들러 등록 및 처리 함수
+    function makeReplyRemoveClickEvent() {
+        const $replyData = document.getElementById('replyData');
+
+        $replyData.onclick = e => {
+            e.preventDefault(); // a태그 링크 이동기능 중지
+
+            // 댓글 번호 찾기
+            const rno = e.target.closest('#replyContent').dataset.replyid;
+
+            // 삭제버튼에만 이벤트가 작동하도록 설정
+            if (e.target.matches('#replyDelBtn')) {
+                // console.log('삭제 버튼 클릭!');
+                if (!confirm('정말 삭제할까요?')) return;
+
+                // console.log(rno);
+
+                const requestInfo = {
+                    method: 'DELETE'
+                };
+                //서버에 비동기 요청
+                fetch(`\${URL}/\${rno}`, requestInfo)
+                    .then(res => {
+                        if (res.status === 200) {
+                            alert('댓글이 석제되었습니다.')
+                            return res.json();
+                        } else {
+                            alert('댓글 삭제에 실패했습니다.');
+                            return;
+                        }
+                    })
+                    .then(responseResult => {
+                        renderReplies(responseResult);
+                    });
+            } else if(e.target.matches('#replyModBtn')) {
+                // console.log('수정모드 진입');
+                const replyText = e.target.parentNode.previousElementSibling.textContent;
+                // console.log(replyText);
+
+                // 읽은 댓글 내용을 모달 바디에 집어넣기
+                document.getElementById('modReplyText').value = replyText;
+
+                // 읽은 댓글의 번호를 모달에 집어넣기
+                const $modal = document.querySelector('.modal');
+                $modal.dataset.rno = rno;
+            }
+        }
+    }
+
+    // 댓글 수정 클릭 이벤트 처리 함수
+    function makeReplyModifyClickEvent() {
+        const $modBtn = document.getElementById('replyModBtn');
+
+        $modBtn.addEventListener('click', e => {
+            const payload = {
+                rno: +document.querySelector('.modal').dataset.rno,
+                text: document.getElementById('modReplyText').value,
+                bno: +bno
+            }
+
+            console.log(payload)
+
+            const requestInfo = {
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            }
+            fetch(URL, requestInfo)
+                .then(res => {
+                    if (res.status === 200) {
+                        alert('댓글이 수정되었습니다.');
+
+                        // modal창 닫기
+                        document.getElementById('modal-close').click();
+                        return res.json();
+                    } else {
+                        alert('댓글 수정에 실패했습니다.');
+                        document.getElementById('modal-close').click();
+                        return;
+                    }
+                })
+                .then(result => {
+                    renderReplies(result);
+                });
+        });
+    }
+
     // ========== 메인 실행부 ===========
 
     // 즉시 실행함수
@@ -397,6 +493,12 @@
 
         // 댓글 등록 클릭 이벤트 핸들러 처리
         makeReplyPostClickEvent();
+
+        // 댓글 삭제 클릭 이벤트 핸들러 처리
+        makeReplyRemoveClickEvent();
+
+        // 댓글 수정 클릭 이벤트 핸들러 처리
+        makeReplyModifyClickEvent();
 
     })();
 
