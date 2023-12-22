@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mvc.chap05.repository.MemberMapper">
+
+    <insert id="save">
+        INSERT INTO tbl_member
+        (account, password, name, email)
+        VALUES
+        (#{account}, #{password}, #{name}, #{email})
+    </insert>
+
+
+    <select id="findMember" resultType="member">
+        SELECT
+            <!-- 실무적 측면에선 *은 안좋으니 일일히 적어주기 -->
+            account, password, name, email, auth, reg_date
+        FROM tbl_member
+        WHERE account = #{account}
+    </select>
+
+
+    <select id="isDuplicate" resultType="boolean">
+        SELECT COUNT(*)
+        FROM tbl_member
+
+        <if test="type == 'account'">
+        WHERE account = #{keyword}
+        </if>
+        <if test="type == 'email'">
+            WHERE email = #{keyword}
+        </if>
+    </select>
+
+</mapper>

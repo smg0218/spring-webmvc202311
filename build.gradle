@@ -39,6 +39,8 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     // 입력값 검증 라이브러리
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //스프링 시큐리티 모듈 (비밀번호 암호화)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
 
 }

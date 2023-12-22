@@ -41,3 +41,6 @@ Rest API 테스트 도구로 json파일을 편하게 볼 수 있도록 해줌
 ## 비동기 통신 (AJAX + REST API) -> AJAX 프레임워크 : jQuery, Angular, React... axios
 하나의 요청이 응답되기 전에 다른 요청이 들어오면
 나중에 요청된 응답이 먼저 응답될수도 있음
+
+## 스프링 시큐리티 모듈에서 자동으로 생성된 로그인페이지 끄는 방법
+config 폴더에 SecurityConfig파일 만들기
