@@ -1,5 +1,6 @@
 package com.spring.mvc.interceptor;
 
+import com.spring.mvc.util.LoginUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -7,6 +8,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import static com.spring.mvc.util.LoginUtils.isLogin;
 
 @Configuration // 설정파일이라는 것을 알려줌
 @Slf4j
@@ -22,7 +25,7 @@ public class AfterLoginInterceptor implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("login") != null) {
+        if (isLogin(session)) {
             response.sendRedirect("/");
             return false; // false면 접근금지
         }

@@ -4,6 +4,7 @@ import com.spring.mvc.chap05.dto.request.LoginRequestDTO;
 import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
+import com.spring.mvc.util.LoginUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -113,7 +114,7 @@ public class MemberController {
 
     private static void makeLoginCookie(LoginRequestDTO dto, HttpServletResponse response) {
         // 쿠키에 로그인 기록을 저장
-        Cookie cookie = new Cookie("login", dto.getAccount());
+        Cookie cookie = new Cookie(LoginUtils.LOGIN_KEY, dto.getAccount());
 
         // 쿠키 정보 세팅
         cookie.setPath("/"); // 이 쿠키는 모든경로에서 들고다녀야 함
