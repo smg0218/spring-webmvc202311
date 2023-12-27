@@ -35,10 +35,10 @@ spring.mvc.view.suffix=.jsp
 Rest API 테스트 도구로 json파일을 편하게 볼 수 있도록 해줌
 
 
-## 동기통신 (SOAP)
+## 동기통신 (SOAP) [@Controller](동기 + 비동기도 @Controller, 단 비동기가 필요한 부분에 @ResponseBody 붙이기)
 하나의 요청이 응답될 때 까지 다른 요청들은 대기상태
 
-## 비동기 통신 (AJAX + REST API) -> AJAX 프레임워크 : jQuery, Angular, React... axios
+## 비동기 통신 (AJAX + REST API) -> AJAX 프레임워크 : jQuery, Angular, React... axios [@RestController]
 하나의 요청이 응답되기 전에 다른 요청이 들어오면
 나중에 요청된 응답이 먼저 응답될수도 있음
 
