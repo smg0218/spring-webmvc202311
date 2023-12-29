@@ -4,7 +4,7 @@ import com.spring.mvc.chap05.entity.Board;
 
 import java.util.List;
 
-// ㄱㅔ시판 CRUD 기능 명세
+// 게시판 CRUD 기능 명세
 public interface BoardRepository {
 
     // 목록 조회

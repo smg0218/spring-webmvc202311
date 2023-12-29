@@ -21,6 +21,16 @@ import java.time.LocalDateTime;
  on delete cascade
  );
  */
+/*
+ALTER TABLE tbl_reply
+        ADD account VARCHAR(50);
+        ALTER TABLE tbl_reply
+        ADD CONSTRAINT fk_reply_account
+        FOREIGN KEY (account)
+        REFERENCES tbl_member (account)
+        ON DELETE CASCADE
+        ;
+*/
 
 @Getter @ToString
 @EqualsAndHashCode
@@ -32,8 +42,11 @@ public class Reply {
     private long replyNo;
     @Setter
     private String replyText;
+    @Setter
     private String replyWriter;
     private LocalDateTime replyDate;
     private long boardNo;
+    @Setter
+    private String account;
 
 }

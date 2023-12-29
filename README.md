@@ -44,3 +44,12 @@ Rest API 테스트 도구로 json파일을 편하게 볼 수 있도록 해줌
 
 ## 스프링 시큐리티 모듈에서 자동으로 생성된 로그인페이지 끄는 방법
 config 폴더에 SecurityConfig파일 만들기
+
+## 흐름에 따른 제작장법
+DB생성 <br>
+
+entity 생성 <br>
+
+mapper 생성 <br>
+
+service 제작 <br>

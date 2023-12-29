@@ -19,6 +19,7 @@ public class ReplyDetailResponseDTO {
 
     @JsonFormat(pattern = "yyyy년 MM월 dd일 HH:MM")
     private LocalDateTime regDate;
+    private String account;
     
     // 엔티티를 DTO로 바꿔주는 메서드(생성자)
     public ReplyDetailResponseDTO(Reply reply) {
@@ -26,5 +27,6 @@ public class ReplyDetailResponseDTO {
         this.text = reply.getReplyText();
         this.writer = reply.getReplyWriter();
         this.regDate = reply.getReplyDate();
+        this.account = reply.getAccount();
     }
 }
