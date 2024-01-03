@@ -26,8 +26,10 @@ class MemberServiceTest {
                 .email("kitty123@gmail.com")
                 .build();
 
+        String savePath = "D:/spring-prj/upload/2024/01/02";
+
         //when
-        boolean flag = memberService.join(dto);
+        boolean flag = memberService.join(dto, savePath);
 
         //then
         assertTrue(flag);
