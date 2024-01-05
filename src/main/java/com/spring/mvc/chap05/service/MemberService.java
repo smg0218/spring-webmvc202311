@@ -34,10 +34,11 @@ public class MemberService {
     
     // 회원가입 처리 서비스
     public boolean join(SignUpRequestDTO dto, String savePath) {
+
+        savePath = "/local" + savePath;
         
         // 클라이언트가 보낸 회원가입 데이터를
         // 패드워드 인코딩하여 엔터티로 변환해서 전달
-
 
         return memberMapper.save(dto.toEntity(encoder, savePath));
     }
@@ -120,6 +121,7 @@ public class MemberService {
                 .nickName(member.getName())
                 .auth(member.getAuth().name())
                 .profile(member.getProfileImage())
+                .loginMethod(member.getLoginMethod().toString())
                 .build();
 
         log.debug("login: {}", dto);

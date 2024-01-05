@@ -32,6 +32,9 @@ public class SignUpRequestDTO {
     // sign-up.jsp에서 input에 name과 이름을 맞춰야함
     private MultipartFile profileImage;
 
+    // 로그인 위치
+    private Member.LoginMethod loginMethod;
+
     // 엔터티로 변환하는 유틸메서드
     public Member toEntity(PasswordEncoder encoder, String savePath) {
         return Member.builder()
@@ -40,6 +43,7 @@ public class SignUpRequestDTO {
                 .email(email)
                 .name(name)
                 .profileImage(savePath)
+                .loginMethod(loginMethod)
                 .build()
                 ;
     }
